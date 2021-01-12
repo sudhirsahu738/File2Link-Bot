@@ -15,7 +15,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.'
 import logging
 
-from telethon import TelegramClient, events
+from telethon import TelegramClient, events, Button
 
 from .paralleltransfer import ParallelTransferrer
 from .config import (
@@ -40,9 +40,21 @@ async def handle_message(evt: events.NewMessage.Event) -> None:
         await evt.reply(group_chat_message)
         return
     if not evt.file:
-        await evt.reply(start_message)
+        channel_link = "https://t.me/Discovery_Updates"
+        group_link = "https://t.me/linux_repo"
+        dev_link = "https://t.me/AbirHasan2005"
+        keyboard = [
+            [  
+                Button.url("Updates Channel", channel_link), 
+                Button.url("Support Group", group_link)
+            ],
+            [
+                Button.url("Developer", dev_link)
+            ]
+        ]
+        await evt.reply(start_message,buttons=keyboard,parse_mode='md')
         return
     url = public_url / str(pack_id(evt)) / get_file_name(evt)
-    await evt.reply(f"Link to download file: [{url}]({url})")
+    await evt.reply(f"Download Now: {url}")
     log.info(f"Replied with link for {evt.id} to {evt.from_id} in {evt.chat_id}")
     log.debug(f"Link to {evt.id} in {evt.chat_id}: {url}")
