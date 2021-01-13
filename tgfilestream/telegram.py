@@ -54,7 +54,14 @@ async def handle_message(evt: events.NewMessage.Event) -> None:
         ]
         await evt.reply(start_message,buttons=keyboard,parse_mode='md')
         return
-    url = public_url / str(pack_id(evt)) / get_file_name(evt)
-    await evt.reply(f"Download Now: {url}")
+    url_button = [
+        [
+            Button.url("Download Now", f"{public_url}/{str(pack_id(evt))}/{get_file_name(evt)}")
+        ],
+        [
+            Button.url("Join Bots Updates Channel", "https://t.me/Discovery_Updates")
+        ]
+    ]
+    await evt.reply(f"Bruh!\nYour Link Generated.\n\nDownload Link: `{public_url}/{str(pack_id(evt))}/{get_file_name(evt)}`\n\n__(Tap to Copy!)__",buttons=url_button,parse_mode="md")
     log.info(f"Replied with link for {evt.id} to {evt.from_id} in {evt.chat_id}")
     log.debug(f"Link to {evt.id} in {evt.chat_id}: {url}")
