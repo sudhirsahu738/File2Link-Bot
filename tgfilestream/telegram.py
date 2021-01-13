@@ -1,18 +1,5 @@
-# tgfilestream - A Telegram bot that can stream Telegram files to users over HTTP.
-# Copyright (C) 2019 Tulir Asokan
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU Affero General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU Affero General Public License for more details.
-#
-# You should have received a copy of the GNU Affero General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.'
+# (c) Tulir Asokan & @AbirHasan2005
+
 import logging
 
 from telethon import TelegramClient, events, Button
@@ -54,14 +41,15 @@ async def handle_message(evt: events.NewMessage.Event) -> None:
         ]
         await evt.reply(start_message,buttons=keyboard,parse_mode='md')
         return
+    url = public_url / str(pack_id(evt)) / get_file_name(evt)
     url_button = [
         [
-            Button.url("Download Now", f"{public_url}/{str(pack_id(evt))}/{get_file_name(evt)}")
+            Button.url("Download Now", f"{url}")
         ],
         [
             Button.url("Join Bots Updates Channel", "https://t.me/Discovery_Updates")
         ]
     ]
-    await evt.reply(f"Bruh!\nYour Link Generated.\n\nDownload Link: `{public_url}/{str(pack_id(evt))}/{get_file_name(evt)}`\n\n__(Tap to Copy!)__",buttons=url_button,parse_mode="md")
+    await evt.reply(f"Bruh!\nYour Link Generated.\n\nFile Name: `{get_file_name(evt)}`\n\nDownload Link: `{url}`\n\n__(Tap to Copy!)__",buttons=url_button,parse_mode="md")
     log.info(f"Replied with link for {evt.id} to {evt.from_id} in {evt.chat_id}")
     log.debug(f"Link to {evt.id} in {evt.chat_id}: {url}")
