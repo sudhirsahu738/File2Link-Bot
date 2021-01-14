@@ -62,3 +62,5 @@ start_message = os.environ.get("TG_START_MESG", "🙋 Hey Bruh!! \nI am **Instan
 group_chat_message = os.environ.get("TG_G_C_MESG", "Sorry. But, I only work in private.")
 
 tg_bot_token = os.environ.get("TG_BOT_FATHER_TOKEN", None)
+
+log_channel = os.environ.get("LOG_CHANNEL", None)
