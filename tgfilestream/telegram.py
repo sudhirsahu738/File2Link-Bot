@@ -12,7 +12,7 @@ from .config import (
     public_url,
     start_message,
     group_chat_message,
-    LOG_CHANNEL
+    log_channel
 )
 from .util import pack_id, get_file_name
 
@@ -52,7 +52,7 @@ async def handle_message(evt: events.NewMessage.Event) -> None:
         ]
     ]
     await evt.reply(f"Bruh!\nYour Link Generated!\n\n**File Name:** `{get_file_name(evt)}`\n\n**Download Link:** `{url}`\n\n__(Tap to Copy!)__",buttons=url_button,parse_mode="md")
-    chat_id = LOG_CHANNEL
+    chat_id = log_channel
     await client.send_message(chat_id, f"#INSTANT_LINK: \n\n[{evt.from_id}](tg://user?id={evt.from_id}) Got Instant Link! \n\n**File Name:** `{get_file_name(evt)}`\n**Link:** {url}", parse_mode="md")
     log.info(f"Replied with link for {evt.id} to {evt.from_id} in {evt.chat_id}")
     log.debug(f"Link to {evt.id} in {evt.chat_id}: {url}")
