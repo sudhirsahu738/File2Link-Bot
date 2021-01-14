@@ -11,7 +11,8 @@ from .config import (
     api_hash,
     public_url,
     start_message,
-    group_chat_message
+    group_chat_message,
+    LOG_CHANNEL
 )
 from .util import pack_id, get_file_name
 
@@ -24,7 +25,7 @@ transfer = ParallelTransferrer(client)
 @client.on(events.NewMessage)
 async def handle_message(evt: events.NewMessage.Event) -> None:
     if not evt.is_private:
-        await evt.reply(group_chat_message)
+        #await evt.reply(group_chat_message)
         return
     if not evt.file:
         channel_link = "https://t.me/Discovery_Updates"
@@ -50,6 +51,9 @@ async def handle_message(evt: events.NewMessage.Event) -> None:
             Button.url("Join Bots Updates Channel", "https://t.me/Discovery_Updates")
         ]
     ]
-    await evt.reply(f"Bruh!\nYour Link Generated.\n\nFile Name: `{get_file_name(evt)}`\n\nDownload Link: `{url}`\n\n__(Tap to Copy!)__",buttons=url_button,parse_mode="md")
+    await evt.reply(f"Bruh!\nYour Link Generated!\n\n**File Name:** `{get_file_name(evt)}`\n\n**Download Link:** `{url}`\n\n__(Tap to Copy!)__",buttons=url_button,parse_mode="md")
+    chat_id = LOG_CHANNEL
+    await client.send_message(chat_id, f"#INSTANT_LINK: \n\n[{evt.from_id}](tg://user?id={evt.from_id}) Got Instant Link! \n\n**File Name:** `{get_file_name(evt)}`\n**Link:** {url}", parse_mode="md")
     log.info(f"Replied with link for {evt.id} to {evt.from_id} in {evt.chat_id}")
     log.debug(f"Link to {evt.id} in {evt.chat_id}: {url}")
+
